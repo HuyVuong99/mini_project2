@@ -5,10 +5,10 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
-// @ts-ignore
-import axios from "axios"
+// // @ts-ignore
+// import axios from "axios"
 Vue.config.productionTip = false
-axios.defaults.baseURL = 'http://localhost/1600'
+// axios.defaults.baseURL = 'http://localhost/1600'
 new Vue({
   router,
   store,
