@@ -45,13 +45,6 @@
           <v-icon>{{ icon }}</v-icon>
           <v-list-item-title>{{ text }}</v-list-item-title>
         </v-list-item>
-        <v-list-item
-            v-for="[icon, text] in historyBets"
-            :key="icon"
-            @click="rank_user">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-main>
@@ -206,12 +199,12 @@ export default {
       this.snack = true
       this.snackColor = 'success'
       this.snackText = 'Data saved'
-      await axios.patch('http://localhost/1600/products/update/match', data)
+      await axios.patch('103.170.123.206:1600/products/update/match', data)
     },
     close() {
     },
     async dessertsIt() {
-      await axios.get('http://localhost:1600/products/match').then(response => {
+      await axios.get('103.170.123.206:1600/products/match').then(response => {
         this.desserts = response.data
         this.desserts.sort(this.compareId)
         for (let i = 0; i < this.desserts.length; i++) {
