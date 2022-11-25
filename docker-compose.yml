@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  frontend:
+    container_name: mini-project-fe
+    image: huyvuong99/mini-project-fe:latest
+#    build:
+#      context: ./frontend
+#      dockerfile: Dockerfile
+    volumes:
+      - './frontend:/app/frontend'
+      - './frontend/node_modules:/app/frontend/node_modules'
+    ports:
+      - '1500:1500'
+    expose:
+      - 1500
+    command: ['npm', 'run', 'serve', '--', '--port', '1500']
+
+
+  backend:
+    container_name: mini-project-be
+    image: huyvuong99/mini-project-be:latest
+#    build:
+#      context: ./backend
+#      dockerfile: Dockerfile
+    volumes:
+      - './backend:/app/backend'
+    ports:
+      - '1600:1600'
+    depends_on:
+      - db
+    entrypoint: [ 'poetry', 'run' ]
+    command: [ 'uvicorn', 'main:app', '--reload', '--host', '0.0.0.0', '--port', '1600' ]
+
+
+  db:
+    container_name: mini_project_db
+    image: postgres:14
+    ports:
+      - '1700:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=default
+    volumes:
+      - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local
