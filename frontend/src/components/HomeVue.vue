@@ -158,8 +158,8 @@
 //   }
 // })
 import axios from "axios";
-import loginVue from "@/components/LoginVue";
-import compareScore from "@/components/RankVue"
+// import loginVue from "@/components/LoginVue";
+// import compareScore from "@/components/RankVue"
 
 export default {
   data: () => ({
@@ -199,12 +199,12 @@ export default {
       this.snack = true
       this.snackColor = 'success'
       this.snackText = 'Data saved'
-      await axios.patch('103.170.123.206:1600/products/update/match', data)
+      await axios.patch('http://103.170.123.206:1600/products/update/match', data)
     },
     close() {
     },
     async dessertsIt() {
-      await axios.get('103.170.123.206:1600/products/match').then(response => {
+      await axios.get('http://103.170.123.206:1600/products/match').then(response => {
         this.desserts = response.data
         this.desserts.sort(this.compareId)
         for (let i = 0; i < this.desserts.length; i++) {

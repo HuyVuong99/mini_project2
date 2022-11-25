@@ -58,7 +58,7 @@ export default {
   methods: {
     async loginVue() {
       try {
-      await axios.post('103.170.123.206:1600/products/users/signin', this.login).then(response => {
+      await axios.post('http://103.170.123.206:1600/products/users/signin', this.login).then(response => {
         if (response.data.code === 200) {
           localStorage.name = response.data.data[0].__data__.username
           localStorage.email = response.data.data[0].__data__.email
