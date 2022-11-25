@@ -15,7 +15,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8080", "http://localhost:8081","http://localhost:1500"],
+    allow_origins=["http://localhost:8080", "http://localhost:8081", "http://localhost:1500", "103.170.123.206:1500"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -74,7 +74,8 @@ def user_history_bets(bets: schemas.bets.Bets):
         query_email = Bets.select().where(Bets.email == data_bets['email']).execute()
         query_email = list(query_email)
         if len(query_email):
-            query_match_number = Bets.select().where((Bets.email == data_bets['email']) & (Bets.match_number == data_bets['match_number'])).execute()
+            query_match_number = Bets.select().where(
+                (Bets.email == data_bets['email']) & (Bets.match_number == data_bets['match_number'])).execute()
             query_match_number = list(query_match_number)
             if len(query_match_number):
                 Bets.update(**data_bets).where(Bets.id == query_match_number[0].__data__['id']).execute()
