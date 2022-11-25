@@ -269,15 +269,15 @@ export default {
       this.userBets.match_number = item.match_number
       this.userBets.id_match = item.id
       this.userBets.choose = item.choose
-      axios.put('103.170.123.206:1500/products/users/bets', this.userBets)
+      axios.put('103.170.123.206:1600/products/users/bets', this.userBets)
       this.close()
     },
     async dessertsIt() {
       this.emailUser.email = localStorage.email
-      await axios.post('103.170.123.206:1500/products/get/users/history', this.emailUser).then(response_history => {
+      await axios.post('103.170.123.206:1600/products/get/users/history', this.emailUser).then(response_history => {
         this.dataHistory = response_history.data
       })
-      await axios.get('103.170.123.206:1500/products/match').then(response => {
+      await axios.get('103.170.123.206:1600/products/match').then(response => {
         this.desserts = response.data
         this.desserts.sort(this.compareId)
         for (let i = 0; i < this.desserts.length; i++) {
