@@ -7,23 +7,23 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/login',
+    path: '/',
     name: 'LoginView',
     component: () => import('../components/LoginVue.vue')
   },
 
     {
-    path: '/dashboard/:id',
+    path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../components/HomeVue.vue')
   },
   {
-    path: '/ranking/:id',
+    path: '/ranking',
     name: 'Ranking',
     component: () => import('../components/RankVue.vue')
   },
     {
-    path: '/bets/:id',
+    path: '/bets',
     name: 'Bets',
     component: () => import('../components/BetsVue.vue')
   }
