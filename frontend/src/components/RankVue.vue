@@ -35,13 +35,13 @@
           <v-icon>{{ icon }}</v-icon>
           <v-list-item-title>{{ text }}</v-list-item-title>
         </v-list-item>
-        <!--        <v-list-item-->
-        <!--            v-for="[icon, text] in historyBets"-->
-        <!--            :key="icon"-->
-        <!--            @click="rank_user">-->
-        <!--          <v-icon>{{ icon }}</v-icon>-->
-        <!--          <v-list-item-title>{{ text }}</v-list-item-title>-->
-        <!--        </v-list-item>-->
+                <v-list-item
+                    v-for="[icon, text] in historyBets"
+                    :key="icon"
+                    @click="history_bets">
+                  <v-icon>{{ icon }}</v-icon>
+                  <v-list-item-title>{{ text }}</v-list-item-title>
+                </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-main>
@@ -95,7 +95,7 @@
 // export default defineComponent({
 //   setup(){
 //     const headers = async () => {
-//     const response= await axios.get('http://localhost:1600/matches')
+//     const response= await axios.get('http://103.170.123.206:1600/matches')
 //           console.log(response.data)
 //     }
 //     return [response]
@@ -121,7 +121,7 @@ export default {
   methods: {
     getUsers() {
       axios.get('http://103.170.123.206:1600/api/users').then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         this.desserts = response.data
         this.desserts.sort(this.compareScore)
         this.desserts.reverse()
@@ -147,6 +147,9 @@ export default {
     bets_user() {
       this.$router.push('/bets')
     },
+    history_bets(){
+      this.$router.push('/history')
+    }
   },
   beforeMount() {
     this.getUsers()

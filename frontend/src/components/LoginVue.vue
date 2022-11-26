@@ -33,7 +33,7 @@ import axios from "axios";
 //     const password = ref('')
 //     console.log('aaaaa')
 //     const login = async () => {
-//     const response = await axios.post('http://localhost:1600/signin', {
+//     const response = await axios.post('http://103.170.123.206:1600/signin', {
 //         email: email.value,
 //         password: password.value
 //       })
@@ -59,6 +59,7 @@ export default {
       try {
       await axios.post('http://103.170.123.206:1600/api/users/login', this.login).then(response => {
         if (response.data.code === 200) {
+          console.log(response)
           localStorage.name = response.data.data[0].username
           localStorage.email = response.data.data[0].email
           localStorage.role = response.data.data[0].role

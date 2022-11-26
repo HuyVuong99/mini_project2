@@ -120,7 +120,7 @@
 // export default defineComponent({
 //   setup(){
 //     const headers = async () => {
-//     const response= await axios.get('http://localhost:1600/matches')
+//     const response= await axios.get('http://103.170.123.206:1600/matches')
 //           console.log(response.data)
 //     }
 //     return [response]
@@ -181,14 +181,12 @@ export default {
       this.snack = true
       this.snackColor = 'success'
       this.snackText = 'Data saved'
-      this.updateScore.match_number = data.match_number
       this.updateScore.result = data.result
-      await axios.patch('http://103.170.123.206:1600/api/match/update', data)
-      await axios.post("http://103.170.123.206:1600/api/users/score",this.updateScore)
-      await axios.patch('http://103.170.123.206:1600/api/users/update/score', this.updateMyScore)
-      await axios.post('http://103.170.123.206:1600/api/users/info_one_user',this.getInfor).then(response =>{
-        localStorage.score = response.data[0].score
-      })
+      this.updateScore.match_number = data.match_number
+       axios.patch('http://103.170.123.206:1600/api/match/update', data)
+       axios.post("http://103.170.123.206:1600/api/users/score",this.updateScore)
+      // console.log(data)
+
     },
     close() {
     },
@@ -197,6 +195,13 @@ export default {
         this.desserts = response.data
         this.desserts.sort(this.compareId)
       })
+       axios.patch('http://103.170.123.206:1600/api/users/update/score', this.updateMyScore)
+      await axios.post('http://103.170.123.206:1600/api/users/info_one_user',this.getInfor).then(response =>{
+        // console.log(response.data[0].score)
+       localStorage.score = response.data[0].score
+        // console.log(localStorage.score)
+      })
+
     },
     compareId(a, b) {
       const scoreA = a.id;

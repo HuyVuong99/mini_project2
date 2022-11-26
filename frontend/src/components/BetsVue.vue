@@ -38,13 +38,13 @@
           <v-icon>{{ icon }}</v-icon>
           <v-list-item-title>{{ text }}</v-list-item-title>
         </v-list-item>
-        <!--        <v-list-item-->
-        <!--            v-for="[icon, text] in historyBets"-->
-        <!--            :key="icon"-->
-        <!--            @click="rank_user">-->
-        <!--          <v-icon>{{ icon }}</v-icon>-->
-        <!--          <v-list-item-title>{{ text }}</v-list-item-title>-->
-        <!--        </v-list-item>-->
+        <v-list-item
+            v-for="[icon, text] in historyBets"
+            :key="icon"
+            @click="history_bets">
+          <v-icon>{{ icon }}</v-icon>
+          <v-list-item-title>{{ text }}</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-main>
@@ -252,6 +252,9 @@ export default {
     },
     rank_user() {
       this.$router.push('/ranking')
+    },
+    history_bets() {
+      this.$router.push('/history')
     }
   },
   beforeMount() {
