@@ -143,6 +143,13 @@ export default {
     myScore: localStorage.score,
     role: localStorage.role,
     desserts: [],
+    updateMyScore:{
+      email: localStorage.email
+    },
+    updateScore:{
+      result: undefined,
+      match_number: undefined,
+    }
   }),
 
   computed: {
@@ -165,7 +172,11 @@ export default {
       this.snack = true
       this.snackColor = 'success'
       this.snackText = 'Data saved'
+      this.updateScore.match_number = data.match_number
+      this.updateScore.result = data.result
       await axios.patch('http://103.170.123.206:1600/products/update/match', data)
+      await axios.post("http://103.170.123.206:1600/products/get/users/score",this.updateScore)
+      await axios.patch('http://103.170.123.206:1600/product/update/myscore', this.updateMyScore)
     },
     close() {
     },

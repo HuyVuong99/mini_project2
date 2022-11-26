@@ -9,7 +9,7 @@ import schemas.matches
 import schemas.bets
 from models.bets import Bets
 from fastapi.middleware.cors import CORSMiddleware
-from schemas.get_history import History_Bets
+import schemas.get_history
 
 app = FastAPI()
 
@@ -38,10 +38,10 @@ def shut_down():
         db.close()
 
 
-@app.post('/')
-def create_account(account: schemas_account.Account):
-    account = account.dict()
-    return Account.create(**account)
+# @app.post('/')
+# def create_account(account: schemas_account.Account):
+#     account = account.dict()
+#     return Account.create(**account)
 
 
 @app.post('/products/users/signin')
@@ -57,7 +57,7 @@ def sign_in(account: schemas.sign_in.Sign_In):
 
 
 @app.get('/products/match')
-def match():
+def get_list_match():
     return Matches.get_list()
 
 
@@ -100,6 +100,43 @@ def get_history_user(bets: schemas.get_history.History_Bets):
         return e
 
 
+@app.post('/products/get/users/score')
+def get_score_user(bets: schemas.get_history.Match_number):
+    try:
+        data = bets.dict()
+        find_data = Bets.select(Bets.email, Bets.match_number, Bets.choose, Bets.score).where(
+            Bets.match_number == data['match_number']).execute()
+        find_data = list(find_data)
+        if len(find_data):
+            for i in range(len(find_data)):
+                if find_data[i].__data__['choose'] == data['result']:
+                    find_data[i].__data__['score'] = 1
+                    data_update = {"email": find_data[i].__data__['email'], "score": find_data[i].__data__['score']}
+                    Bets.update(**data_update).where(
+                        (Bets.email == data_update['email']) & (
+                                Bets.match_number == find_data[i].__data__['match_number'])).execute()
+        return find_data
+    except Exception as e:
+        return e
+
+
+@app.patch('/product/update/myscore')
+def update_score_account(bets: schemas.get_history.History_Bets):
+    try:
+        sum_score = 0
+        data_account = bets.dict()
+        find_score_by_name = Bets.select(Bets.email, Bets.score).where(Bets.email == data_account['email']).execute()
+        find_score_by_name = list(find_score_by_name)
+        if len(find_score_by_name):
+            for i in range(0, len(find_score_by_name)):
+                sum_score = sum_score + find_score_by_name[i].__data__['score']
+        data_update = {"email": data_account['email'], "score": sum_score}
+        Account.update(**data_update).where(Account.email == data_update['email']).execute()
+        return {"code": 200, "isSuccess": True, "data": data_update}
+    except Exception as e:
+        return {"code": 400, "isSuccess": False, "data": e}
+
+
 @app.get('/products/get/users')
-def test():
+def get_list_user():
     return Account.get_list()

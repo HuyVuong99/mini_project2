@@ -12,6 +12,7 @@ class Bets(BaseModel_db):
     username = CharField()
     choose = CharField()
     id = IntegerField()
+    score = IntegerField()
 
     class Meta:
         db_table = 'history_bets'

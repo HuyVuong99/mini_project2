@@ -6,7 +6,7 @@ class Bets(SchemasBase):
     date_time: str
     home_team: str
     away_team: str
-    # id: int
+    score: int
     id_match: int
     email: str
     username: str
