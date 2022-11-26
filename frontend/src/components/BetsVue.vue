@@ -215,6 +215,7 @@ export default {
       this.userBets.match_number = item.match_number
       this.userBets.id_match = item.id
       this.userBets.choose = item.choose
+      this.userBets.score = 0
       axios.put('http://103.170.123.206:1600/products/users/bets', this.userBets)
       this.close()
     },
