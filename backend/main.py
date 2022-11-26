@@ -49,7 +49,7 @@ def sign_in(account: schemas.sign_in.Sign_in):
     """User login"""
     account = account.dict()
     query = Account.select().where(
-        (Account.email == account['email']) & (Account.password == account['password'])).dicts()
+        (Account.email == account['email']) & (Account.password == account['password'])).execute()
     query_len = list(query)
     if len(query_len):
         return {"code": 200, "data": query_len}
@@ -67,7 +67,8 @@ def get_list_match():
 def update_matches(matches: schemas.matches.Match):
     """Update Match"""
     match_data = matches.dict()
-    query = Matches.update(**match_data).where(Matches.id == match_data['id']).dicts()
+    print(match_data)
+    query = Matches.update(**match_data).where(Matches.match_number == match_data['match_number']).execute()
     return query
 
 
@@ -76,7 +77,7 @@ def user_bets(bets: schemas.bets.Bets):
     """save User Bets"""
     try:
         data_bets = bets.dict()
-        query_email = Bets.select().where(Bets.email == data_bets['email']).dicts()
+        query_email = Bets.select().where(Bets.email == data_bets['email']).execute()
         query_email = list(query_email)
         if len(query_email):
             query_match_number = Bets.select().where(
@@ -85,9 +86,9 @@ def user_bets(bets: schemas.bets.Bets):
             if len(query_match_number):
                 Bets.update(**data_bets).where(Bets.id == query_match_number[0]['id']).dicts()
             else:
-                Bets.insert(**data_bets).dicts()
+                Bets.insert(**data_bets).execute()
         else:
-            Bets.insert(**data_bets).dicts()
+            Bets.insert(**data_bets).execute()
         return {"code": 200, "data": data_bets}
     except Exception as e:
         return {"code": 400, "error": e}
@@ -102,9 +103,9 @@ def get_history_user(bets: schemas.get_history.History_Bets):
         query_email = Bets.select().where(Bets.email == data_bets['email']).dicts()
         # query_email = query_email.dicts()
         query_email = list(query_email)
-        return query_email
+        return {"code": 200, "isSuccess": True, "data": data_bets}
     except Exception as e:
-        return e
+        return {"code": 400, "isSuccess": False, "err": e}
 
 
 @app.post('/api/users/score')
@@ -123,9 +124,9 @@ def get_score_user(bets: schemas.get_history.Match_number):
                     Bets.update(**data_update).where(
                         (Bets.email == data_update['email']) & (
                                 Bets.match_number == find_data[i]['match_number'])).dicts()
-        return find_data
+        return {"code": 200, "isSuccess": True, "data": data}
     except Exception as e:
-        return e
+        return {"code": 400, "isSuccess": False, "err": e}
 
 
 @app.patch('/api/users/update/score')
@@ -140,7 +141,7 @@ def update_score_account(bets: schemas.get_history.History_Bets):
             for i in range(0, len(find_score_by_name)):
                 sum_score = sum_score + find_score_by_name[i]['score']
         data_update = {"email": data_account['email'], "score": sum_score}
-        Account.update(**data_update).where(Account.email == data_update['email']).dicts()
+        Account.update(**data_update).where(Account.email == data_update['email']).execute()
         return {"code": 200, "isSuccess": True, "data": data_update}
     except Exception as e:
         return {"code": 400, "isSuccess": False, "data": e}

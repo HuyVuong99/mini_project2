@@ -11,4 +11,3 @@ class Match(SchemasBase):
     group_match: str
     result: str
     goal: str
-    id: int
