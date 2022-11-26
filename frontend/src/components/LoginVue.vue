@@ -64,6 +64,7 @@ export default {
           localStorage.role = response.data.data[0].__data__.role
           localStorage.score = response.data.data[0].__data__.score
           localStorage.id = response.data.data[0].__data__.id
+          localStorage.password = response.data.data[0].__data__.password
           this.$router.push('/dashboard')
 
         }

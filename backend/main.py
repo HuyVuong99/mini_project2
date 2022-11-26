@@ -140,3 +140,11 @@ def update_score_account(bets: schemas.get_history.History_Bets):
 @app.get('/products/get/users')
 def get_list_user():
     return Account.get_list()
+
+
+@app.post('/products/get/infor')
+def get_infor(account: schemas.sign_in.Sign_In):
+    account = account.dict()
+    get_infor_user = Account.select(Account.score).where(Account.email == account['email'])
+    get_infor_user = list(get_infor_user)
+    return get_infor_user

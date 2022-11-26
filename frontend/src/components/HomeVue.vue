@@ -146,6 +146,10 @@ export default {
     updateMyScore:{
       email: localStorage.email
     },
+    getInfor:{
+      email: localStorage.email,
+      password: localStorage.password
+    },
     updateScore:{
       result: undefined,
       match_number: undefined,
@@ -177,6 +181,9 @@ export default {
       await axios.patch('http://103.170.123.206:1600/products/update/match', data)
       await axios.post("http://103.170.123.206:1600/products/get/users/score",this.updateScore)
       await axios.patch('http://103.170.123.206:1600/product/update/myscore', this.updateMyScore)
+      await axios.post('http://103.170.123.206:1600/products/get/infor',this.getInfor).then(response =>{
+        localStorage.score = response.data.data[0].__data__.score
+      })
     },
     close() {
     },
