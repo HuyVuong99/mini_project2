@@ -34,12 +34,17 @@
           <v-icon>{{ icon }}</v-icon>
           <v-list-item-title>{{ text }}</v-list-item-title>
         </v-list-item>
+        <v-list-item
+            v-for="[icon, text] in historyBets" :key="icon" @click="history_bets">
+          <v-icon>{{ icon }}</v-icon>
+          <v-list-item-title>{{ text }}</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-main>
       <v-container
           class="py-8 px-6" fluid>
-        <v-card-title> Lich Thi Dau
+        <v-card-title> Lịch Thi Đấu World Cup
           <v-spacer></v-spacer>
           <v-text-field
               v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details
@@ -178,17 +183,17 @@ export default {
       this.snackText = 'Data saved'
       this.updateScore.match_number = data.match_number
       this.updateScore.result = data.result
-      await axios.patch('http://103.170.123.206:1600/products/update/match', data)
-      await axios.post("http://103.170.123.206:1600/products/get/users/score",this.updateScore)
-      await axios.patch('http://103.170.123.206:1600/product/update/myscore', this.updateMyScore)
-      await axios.post('http://103.170.123.206:1600/products/get/infor',this.getInfor).then(response =>{
-        localStorage.score = response.data[0].__data__.score
+      await axios.patch('http://103.170.123.206:1600/api/match/update', data)
+      await axios.post("http://103.170.123.206:1600/api/users/score",this.updateScore)
+      await axios.patch('http://103.170.123.206:1600/api/users/update/score', this.updateMyScore)
+      await axios.post('http://103.170.123.206:1600/api/users/info_one_user',this.getInfor).then(response =>{
+        localStorage.score = response.data[0].score
       })
     },
     close() {
     },
     async dessertsIt() {
-      await axios.get('http://103.170.123.206:1600/products/match').then(response => {
+      await axios.get('http://103.170.123.206:1600/api/match').then(response => {
         this.desserts = response.data
         this.desserts.sort(this.compareId)
       })
@@ -214,6 +219,9 @@ export default {
     bets_user() {
       this.$router.push('/bets')
     },
+    history_bets(){
+      this.$router.push('/history')
+    }
   },
   beforeMount() {
     this.dessertsIt()

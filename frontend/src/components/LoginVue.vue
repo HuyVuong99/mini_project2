@@ -57,14 +57,14 @@ export default {
   methods: {
     async loginVue() {
       try {
-      await axios.post('http://103.170.123.206:1600/products/users/signin', this.login).then(response => {
+      await axios.post('http://103.170.123.206:1600/api/users/login', this.login).then(response => {
         if (response.data.code === 200) {
-          localStorage.name = response.data.data[0].__data__.username
-          localStorage.email = response.data.data[0].__data__.email
-          localStorage.role = response.data.data[0].__data__.role
-          localStorage.score = response.data.data[0].__data__.score
-          localStorage.id = response.data.data[0].__data__.id
-          localStorage.password = response.data.data[0].__data__.password
+          localStorage.name = response.data.data[0].username
+          localStorage.email = response.data.data[0].email
+          localStorage.role = response.data.data[0].role
+          localStorage.score = response.data.data[0].score
+          localStorage.id = response.data.data[0].id
+          localStorage.password = response.data.data[0].password
           this.$router.push('/dashboard')
 
         }

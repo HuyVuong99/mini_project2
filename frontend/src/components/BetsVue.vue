@@ -216,21 +216,21 @@ export default {
       this.userBets.id_match = item.id
       this.userBets.choose = item.choose
       this.userBets.score = 0
-      axios.put('http://103.170.123.206:1600/products/users/bets', this.userBets)
+      axios.put('http://103.170.123.206:1600/api/users/bets', this.userBets)
       this.close()
     },
     async dessertsIt() {
       this.emailUser.email = localStorage.email
-      await axios.post('http://103.170.123.206:1600/products/get/users/history', this.emailUser).then(response_history => {
+      await axios.post('http://103.170.123.206:1600/api/users/history', this.emailUser).then(response_history => {
         this.dataHistory = response_history.data
       })
-      await axios.get('http://103.170.123.206:1600/products/match').then(response => {
+      await axios.get('http://103.170.123.206:1600/api/match').then(response => {
         this.desserts = response.data
         this.desserts.sort(this.compareId)
         for (let i = 0; i < this.desserts.length; i++) {
           for (let j = 0; j < this.dataHistory.length; j++) {
-            if (this.desserts.at(i).id === this.dataHistory.at(j).__data__.id_match) {
-              this.desserts.at(i).choose = this.dataHistory.at(j).__data__.choose
+            if (this.desserts.at(i).id === this.dataHistory.at(j).id_match) {
+              this.desserts.at(i).choose = this.dataHistory.at(j).choose
             }
           }
         }

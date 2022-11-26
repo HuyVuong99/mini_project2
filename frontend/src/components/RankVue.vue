@@ -120,7 +120,7 @@ export default {
 
   methods: {
     getUsers() {
-      axios.get('http://103.170.123.206:1600/products/get/users').then(response => {
+      axios.get('http://103.170.123.206:1600/api/users').then(response => {
         console.log(response.data)
         this.desserts = response.data
         this.desserts.sort(this.compareScore)
