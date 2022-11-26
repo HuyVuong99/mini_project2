@@ -25,7 +25,6 @@
   </v-app>
 </template>
 <script>
-// import {defineComponent, ref} from "vue"
 import axios from "axios";
 
 // export default defineComponent({
@@ -65,7 +64,8 @@ export default {
           localStorage.role = response.data.data[0].__data__.role
           localStorage.score = response.data.data[0].__data__.score
           localStorage.id = response.data.data[0].__data__.id
-          this.$router.push('/dashboard')
+          this.$router.push('/dashboard/{{localStorage.id}}')
+
         }
         else {
           this.error='Invalid email/password!'
@@ -79,21 +79,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-    .first{
-      background-color: #f7ff00
-    }
-    .second {
-       background-color: #11ff00
-    }
-    .third {
-       background-color: #e9ece9
-    }
-.v-data-table>.v-data-table__wrapper>table>tbody>tr>td{
-  font-weight:bold;
-  font-size:20px;
-}
-.v-data-table>.v-data-table-header>tr>th {
-  font-size: 50px !important;
-}
-</style>

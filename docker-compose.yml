@@ -34,7 +34,7 @@ services:
 
 
   db:
-    container_name: mini_project_db
+    container_name: mini-project-db
     image: postgres:14
     ports:
       - '1700:5432'
