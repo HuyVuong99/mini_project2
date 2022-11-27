@@ -58,7 +58,7 @@
       <v-container
           class="py-8 px-6"
           fluid>
-        <v-card-title class="title"> <h1>History My Bets</h1>
+        <v-card-title class="title"> <h1>Lịch sử đặt cược</h1>
           <v-spacer></v-spacer>
         </v-card-title>
       </v-container>

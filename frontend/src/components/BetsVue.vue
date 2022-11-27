@@ -53,7 +53,7 @@
       <v-container
           class="py-8 px-6"
           fluid>
-        <v-card-title class="title"><h1>My Bets</h1>
+        <v-card-title class="title"><h1>FootBall-Bets-FBiz (choose Home team Win - Draw - Lose)</h1>
         </v-card-title>
       </v-container>
       <v-simple-table>
@@ -224,7 +224,7 @@ export default {
       this.userBets.date_time = item.date_time
       this.userBets.match_number = item.match_number
       this.userBets.id_match = item.id
-      this.userBets.choose = item.choose
+      this.userBets.choose = item.choose.toUpperCase()
       this.userBets.score = 0
       this.userBets.time_choose = new Date().toLocaleString()
       axios.put('http://103.170.123.206:1600/api/users/bets', this.userBets)
