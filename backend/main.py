@@ -153,7 +153,9 @@ def update_score_account(bets: schemas.get_history.History_Bets):
 @app.get('/api/users')
 def get_list_user():
     """Get list User"""
-    return Account.get_list()
+    query_data = Account.select().order_by(Account.score.desc()).dicts()
+    query_data = list(query_data)
+    return query_data
 
 
 @app.post('/api/users/info_one_user')

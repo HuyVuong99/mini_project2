@@ -123,21 +123,19 @@ export default {
       axios.get('http://103.170.123.206:1600/api/users').then(response => {
         // console.log(response.data)
         this.desserts = response.data
-        this.desserts.sort(this.compareScore)
-        this.desserts.reverse()
       }).catch(error => console.log(error))
     },
-    compareScore(a, b) {
-      const scoreA = a.score;
-      const scoreB = b.score;
-      let comparison = 0;
-      if (scoreA > scoreB) {
-        comparison = 1;
-      } else if (scoreA < scoreB) {
-        comparison = -1;
-      }
-      return comparison
-    },
+    // compareScore(a, b) {
+    //   const scoreA = a.score;
+    //   const scoreB = b.score;
+    //   let comparison = 0;
+    //   if (scoreA > scoreB) {
+    //     comparison = 1;
+    //   } else if (scoreA < scoreB) {
+    //     comparison = -1;
+    //   }
+    //   return comparison
+    // },
     rank_user() {
       this.$router.push('/ranking')
     },
