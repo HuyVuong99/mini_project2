@@ -9,8 +9,8 @@
           color="grey lighten-4"class="pa-4">
         <v-avatar
             class="mb-4" color="primary" size="64" ></v-avatar>
-        <div>{{ infor }}</div>
-        <div>My Score: {{ myScore }}</div>
+        <div class="infor">{{ infor }}</div>
+        <div class="infor">My Score: {{ myScore }}</div>
       </v-sheet>
       <v-divider></v-divider>
       <v-list>
@@ -48,7 +48,7 @@
       <v-container
           class="py-8 px-6"
           fluid>
-        <v-card-title> Bảng xếp hạng
+        <v-card-title class="title"> <h1> Bảng xếp hạng</h1>
           <v-spacer></v-spacer>
         </v-card-title>
       </v-container>
@@ -67,7 +67,7 @@
               v-for="(item, index) in desserts"
               :key="item.username"
               class="text-center"
-              v-bind:class="{first: index < 1, second: index>0, third: index>1 }">
+              v-bind:class="{first_rank: index < 1, second_rank: index>0, third_rank: index>1 }">
             <td>{{ index + 1 }}</td>
             <td>{{ item.username }}</td>
             <td>{{ item.score }}</td>
@@ -157,22 +157,6 @@ export default {
 }
 
 </script>
-<style scoped>
-.first {
-  background-color: #f7ff00
-}
-
-.second {
-  background-color: #11ff00
-}
-
-.third {
-  background-color: #e9ece9
-}
-
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
-  font-weight: bold;
-  font-size: 20px;
-}
-
+<style rel="stylesheet/scss" lang="scss" scoped>
+@import "src/assets/main.scss";
 </style>

@@ -13,6 +13,7 @@ class Bets(BaseModel_db):
     choose = CharField()
     id = IntegerField()
     score = IntegerField()
+    time_choose = CharField()
 
     class Meta:
         db_table = 'history_bets'

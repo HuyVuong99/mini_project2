@@ -11,4 +11,5 @@ class Bets(SchemasBase):
     email: str
     username: str
     choose: str
+    time_choose: str
 

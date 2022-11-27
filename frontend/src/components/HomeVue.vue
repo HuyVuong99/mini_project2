@@ -9,9 +9,8 @@
         <v-avatar
             class="mb-4" color="primary" size="64"
         ></v-avatar>
-        <div>{{ infor }}</div>
-        <div>My Score: {{ myScore }}</div>
-
+        <div class="infor">{{ infor }}</div>
+        <div class="infor">My Score: {{ myScore }}</div>
       </v-sheet>
       <v-divider></v-divider>
 
@@ -44,7 +43,7 @@
     <v-main>
       <v-container
           class="py-8 px-6" fluid>
-        <v-card-title> Lịch Thi Đấu World Cup
+        <v-card-title class="title"> <h1>Lịch Thi Đấu World Cup</h1>
           <v-spacer></v-spacer>
           <v-text-field
               v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details
@@ -58,7 +57,7 @@
                 :search="search"
                 item-key="name"
                 class="elevation-15"
-                v-bind:class="{first:desserts.length > 0}">
+                v-bind:class="{home_vue:desserts.length > 0}">
               <template v-slot:item.result="props" v-if="role==='admin'">
                 <v-edit-dialog :return-value.sync="props.item.result"
                                @save="save(props.item)"
@@ -104,7 +103,7 @@
        <v-container
           class="py-8 px-6"
           fluid>
-        <v-row>
+        <v-row >
           <v-app-bar app>
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-toolbar-title>FootBall Bets</v-toolbar-title>
@@ -236,14 +235,6 @@ export default {
 
 </script>
 
-<style scoped>
-.first {
-  background: #eadebd;
-}
-
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
-.v-data-table > .v-data-table__wrapper > table > tfoot > tr > td,
-.v-data-table > .v-data-table__wrapper > table > thead > tr > td {
-  font-size: 33px;
-}
+<style rel="stylesheet/scss" lang="scss" scoped>
+@import "src/assets/main.scss";
 </style>

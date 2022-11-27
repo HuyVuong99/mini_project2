@@ -11,8 +11,10 @@
             class="mb-4" color="primary" size="64">
 
         </v-avatar>
-        <div>{{ infor }}</div>
-        <div>My Score: {{ myScore }}</div>
+        <div class="infor">
+          {{ infor }}
+        </div>
+        <div class="infor">My Score: {{ myScore }}</div>
       </v-sheet>
       <v-divider></v-divider>
       <v-list>
@@ -51,8 +53,7 @@
       <v-container
           class="py-8 px-6"
           fluid>
-        <v-card-title> My Bets
-          <v-spacer></v-spacer>
+        <v-card-title class="title"><h1>My Bets</h1>
         </v-card-title>
       </v-container>
       <v-simple-table>
@@ -83,14 +84,16 @@
             <td>
               <v-btn
                   color="pink" dark class="mb-lg-0" @click="editItem(item)">
-                  Bets
+                Bets
               </v-btn>
             </td>
           </tr>
+          <v-snackbar
+                v-model="snack" :timeout="3000" :color="snackColor" icon="mdi-check-circle">
+              {{ snackText }}
+            </v-snackbar>
           <v-dialog v-model="dialog"
                     max-width="500px" persistent :retain-focus="false">
-            <template v-slot:activator="{ on, attrs }">
-            </template>
             <v-card>
               <v-card-title>
                 <span class="text-h5">Your Bets</span>
@@ -106,12 +109,10 @@
                           label="Home_Team"
                       ></v-text-field>
                     </v-col>
-                    <v-col
-                        cols="12" sm="6" md="4">
+                    <v-col cols="12" sm="6" md="4">
                       <v-text-field
                           disabled v-model="editData.away_team"
-                          label="Away_Team"
-                      ></v-text-field>
+                          label="Away_Team"></v-text-field>
                     </v-col>
                     <v-col
                         cols="12" sm="6" md="4">
@@ -129,7 +130,7 @@
                     color="red darken-1" text @click="close"> Cancel
                 </v-btn>
                 <v-btn
-                    color="blue darken-1" text @click="save(editData)"> Save
+                    color="blue darken-1" text @click="save(editData)" > Save
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -148,6 +149,7 @@
         </v-row>
       </v-container>
     </v-main>
+
   </v-app>
 </template>
 
@@ -164,6 +166,9 @@ export default {
     historyBets: [['mdi-card-text', "History Bets"]],
     infor: localStorage.email,
     myScore: localStorage.score,
+    snack: false,
+    snackColor: '',
+    snackText: '',
     desserts: [],
     edit: false,
     editedIndex: -1,
@@ -180,7 +185,8 @@ export default {
       id_match: undefined,
       email: localStorage.email,
       username: localStorage.name,
-      choose: undefined
+      choose: undefined,
+      time_choose: undefined
     },
     dialog: false
   }),
@@ -209,6 +215,10 @@ export default {
       })
     },
     save(item) {
+      this.snack = true
+      this.snackColor = 'success'
+      this.snackText = 'Bets Success'
+      this.type = true
       this.userBets.away_team = item.away_team
       this.userBets.home_team = item.home_team
       this.userBets.date_time = item.date_time
@@ -216,6 +226,7 @@ export default {
       this.userBets.id_match = item.id
       this.userBets.choose = item.choose
       this.userBets.score = 0
+      this.userBets.time_choose = new Date().toLocaleString()
       axios.put('http://103.170.123.206:1600/api/users/bets', this.userBets)
       this.close()
     },
@@ -262,13 +273,6 @@ export default {
   }
 }
 </script>
-<style scoped>
-.first {
-  background-color: #eedea3
-}
-
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
-  font-weight: bold;
-  font-size: 20px;;
-}
+<style rel="stylesheet/scss" lang="scss" scoped>
+@import "src/assets/main.scss";
 </style>

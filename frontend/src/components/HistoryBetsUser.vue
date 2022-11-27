@@ -11,8 +11,8 @@
             class="mb-4" color="primary" size="64">
 
         </v-avatar>
-        <div>{{ infor }}</div>
-        <div>My Score: {{ myScore }}</div>
+        <div class="infor">{{ infor }}</div>
+        <div class="infor">My Score: {{ myScore }}</div>
       </v-sheet>
       <v-divider></v-divider>
       <v-list>
@@ -26,7 +26,7 @@
         <v-list-item
             v-for="[icon, text] in bets"
             :key="icon"
-            link>
+            @click="bets_user">
           <v-icon>{{ icon }}</v-icon>
           <v-list-item-title>{{ text }}</v-list-item-title>
         </v-list-item>
@@ -35,6 +35,13 @@
             v-for="[icon, text] in rank"
             :key="icon"
             @click="rank_user">
+          <v-icon>{{ icon }}</v-icon>
+          <v-list-item-title>{{ text }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+            v-for="[icon, text] in historyBets"
+            :key="icon"
+            @click="history_bets">
           <v-icon>{{ icon }}</v-icon>
           <v-list-item-title>{{ text }}</v-list-item-title>
         </v-list-item>
@@ -51,7 +58,7 @@
       <v-container
           class="py-8 px-6"
           fluid>
-        <v-card-title> History My Bets
+        <v-card-title class="title"> <h1>History My Bets</h1>
           <v-spacer></v-spacer>
         </v-card-title>
       </v-container>
@@ -60,9 +67,9 @@
                   class="elevation-20">
           <thead>
           <tr>
+            <th class="text-center">Time_Choose</th>
             <th class="text-center">Date_Time</th>
             <th class="text-center">Home_Team</th>
-            <th class="text-center"></th>
             <th class="text-center">Away_Team</th>
             <th class="text-center">Choose</th>
             <th class="text-center">Score</th>
@@ -72,10 +79,11 @@
           <tr
               v-for="(item) in desserts"
               :key="item.username"
-              class="text-center">
+              class="text-center"
+              v-bind:class="{history_color: (desserts.length > 0)}">
+            <td>{{ item.time_choose }}</td>
             <td>{{ item.date_time }}</td>
             <td>{{ item.home_team }}</td>
-            <td>{{ item.goal }}</td>
             <td>{{ item.away_team }}</td>
             <td>{{ item.choose }}</td>
             <td>{{item.score}}</td>
@@ -167,6 +175,12 @@ export default {
     },
     rank_user() {
       this.$router.push('/ranking')
+    },
+    bets_user() {
+      this.$router.push('/bets')
+    },
+    history_bets() {
+      this.$router.push('/history')
     }
   },
   beforeMount() {
@@ -174,13 +188,6 @@ export default {
   }
 }
 </script>
-<style scoped>
-.first {
-  background-color: #eedea3
-}
-
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
-  font-weight: bold;
-  font-size: 20px;;
-}
+<style rel="stylesheet/scss" lang="scss" scoped>
+@import "src/assets/main.scss";
 </style>
