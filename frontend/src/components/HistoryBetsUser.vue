@@ -156,6 +156,8 @@ export default {
       this.emailUser.email = localStorage.email
       await axios.post('http://103.170.123.206:1600/api/users/history',this.emailUser).then(response=>{
         this.desserts = response.data
+        this.desserts.sort(this.compareId)
+            this.desserts.reverse()
         // console.log(response.data)
       })
     },
