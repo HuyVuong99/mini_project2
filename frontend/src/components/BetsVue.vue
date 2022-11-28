@@ -9,14 +9,12 @@
           color="grey lighten-4" class="pa-4">
         <v-avatar
             class="mb-4" color="primary" size="64">
-
         </v-avatar>
         <div class="infor">
           {{ infor }}
         </div>
         <div class="infor">My Score: {{ myScore }}</div>
       </v-sheet>
-      <v-divider></v-divider>
       <v-list>
         <v-list-item
             v-for="[icon, text] in home"
@@ -89,14 +87,15 @@
             </td>
           </tr>
           <v-snackbar
-                v-model="snack" :timeout="3000" :color="snackColor" icon="mdi-check-circle">
-              {{ snackText }}
-            </v-snackbar>
+              v-model="snack" :timeout="3000" :color="snackColor">
+            <v-icon>{{ iconSuccess }}</v-icon>
+            {{ snackText }}
+          </v-snackbar>
           <v-dialog v-model="dialog"
                     max-width="500px" persistent :retain-focus="false">
             <v-card>
               <v-card-title>
-                <span class="text-h5">Your Bets</span>
+                <span class="text-h5">Choose Home_Team Win - Draw - Lose</span>
               </v-card-title>
 
               <v-card-text>
@@ -114,24 +113,26 @@
                           disabled v-model="editData.away_team"
                           label="Away_Team"></v-text-field>
                     </v-col>
-                    <v-col
-                        cols="12" sm="6" md="4">
-                      <v-text-field
+                    <v-col cols="12" sm="6" md="4">
+                      <v-select
                           v-model="editData.choose"
-                          label="You choose W,D,L"
-                      ></v-text-field>
+                          :items="items"
+                          item-text="state"
+                          item-value="abbr"
+                          label="You choose"
+                          persistent-hint
+                          return-object
+                          single-line
+                          class="select"
+                      ></v-select>
                     </v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn
-                    color="red darken-1" text @click="close"> Cancel
-                </v-btn>
-                <v-btn
-                    color="blue darken-1" text @click="save(editData)" > Save
-                </v-btn>
+                <v-btn color="red darken-1" text @click="close"> Cancel </v-btn>
+                <v-btn color="blue darken-1" text @click="save(editData)"> Save </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -166,8 +167,9 @@ export default {
     historyBets: [['mdi-card-text', "History Bets"]],
     infor: localStorage.email,
     myScore: localStorage.score,
-    items:['W',"D","L"],
+    items:['W', "D", "L"],
     snack: false,
+    iconSuccess: 'mdi-check-circle',
     snackColor: '',
     snackText: '',
     desserts: [],
@@ -219,7 +221,6 @@ export default {
       this.snack = true
       this.snackColor = 'success'
       this.snackText = 'Bets Success'
-      this.type = true
       this.userBets.away_team = item.away_team
       this.userBets.home_team = item.home_team
       this.userBets.date_time = item.date_time
