@@ -157,13 +157,12 @@ export default {
       await axios.post('http://103.170.123.206:1600/api/users/history',this.emailUser).then(response=>{
         this.desserts = response.data
         this.desserts.sort(this.compareId)
-            this.desserts.reverse()
         // console.log(response.data)
       })
     },
     compareId(a, b) {
-      const scoreA = a.id;
-      const scoreB = b.id;
+      const scoreA = a.id_match;
+      const scoreB = b.id_match;
       let comparison = 0;
       if (scoreA > scoreB) {
         comparison = 1;

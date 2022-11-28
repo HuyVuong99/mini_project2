@@ -239,7 +239,6 @@ export default {
       await axios.get('http://103.170.123.206:1600/api/match').then(response => {
         this.desserts = response.data
         this.desserts.sort(this.compareId)
-        this.desserts.reverse()
         for (let i = 0; i < this.desserts.length; i++) {
           for (let j = 0; j < this.dataHistory.length; j++) {
             if (this.desserts.at(i).id === this.dataHistory.at(j).id_match) {
@@ -250,8 +249,8 @@ export default {
       })
     },
     compareId(a, b) {
-      const scoreA = a.id_match;
-      const scoreB = b.id_match;
+      const scoreA = a.id;
+      const scoreB = b.id;
       let comparison = 0;
       if (scoreA > scoreB) {
         comparison = 1;
