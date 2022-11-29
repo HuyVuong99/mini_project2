@@ -60,7 +60,9 @@ def sign_in(account: schemas.sign_in.Sign_in):
 @app.get('/api/match')
 def get_list_match():
     """Get list match WorldCup"""
-    return Matches.get_list()
+    query_match = Matches.select().dicts()
+    query_match = list(query_match)
+    return query_match
 
 
 @app.patch('/api/match/update')
