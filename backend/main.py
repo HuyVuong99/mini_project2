@@ -78,11 +78,11 @@ def user_bets(bets: schemas.bets.Bets):
     """save User Bets"""
     try:
         data_bets = bets.dict()
-        query_email = Bets.select().where(Bets.email == data_bets['email'])
-        query_email = list(query_email)
-        if len(query_email):
+        query_user = Bets.select().where(Bets.id_user == data_bets['id_user']).dicts()
+        query_user = list(query_user)
+        if len(query_user):
             query_match_number = Bets.select().where(
-                (Bets.email == data_bets['email']) & (Bets.match_number == data_bets['match_number'])).dicts()
+                (Bets.id_user == data_bets['id_user']) & (Bets.match_number == data_bets['match_number'])).dicts()
             query_match_number = list(query_match_number)
             if len(query_match_number):
                 Bets.update(**data_bets).where(Bets.id == query_match_number[0]['id']).execute()
@@ -114,14 +114,12 @@ def get_score_user(bets: schemas.get_history.Match_number):
         find_data = Bets.select(Bets.email, Bets.match_number, Bets.choose, Bets.score).where(
             Bets.match_number == data['match_number']).dicts()
         find_data = list(find_data)
-        print(find_data)
         if len(find_data):
             for i in range(len(find_data)):
                 if find_data[i]['choose'] == data['result']:
                     find_data[i]['score'] = 1
                     data_update = {"email": find_data[i]['email'], "score": find_data[i]['score'],
                                    "match_number": find_data[i]['match_number']}
-                    print(data_update)
                     Bets.update(**data_update).where(
                         (Bets.email == data_update['email']) & (
                                 Bets.match_number == find_data[i]['match_number'])).execute()

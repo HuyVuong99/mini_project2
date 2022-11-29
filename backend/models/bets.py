@@ -10,6 +10,7 @@ class Bets(BaseModel_db):
     id_match = IntegerField()
     email = CharField()
     choose = CharField()
+    username = CharField()
     id = IntegerField()
     score = IntegerField()
     time_choose = CharField()

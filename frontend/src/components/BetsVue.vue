@@ -186,7 +186,8 @@ export default {
       email: localStorage.email,
       username: localStorage.name,
       choose: undefined,
-      time_choose: undefined
+      time_choose: undefined,
+      id_user: undefined
     },
     dialog: false
   }),
@@ -214,7 +215,7 @@ export default {
         this.editedIndex = -1
       })
     },
-    save(item) {
+    async save(item) {
       this.snack = true
       this.snackColor = 'success'
       this.snackText = 'Bets Success'
@@ -225,8 +226,9 @@ export default {
       this.userBets.id_match = item.id
       this.userBets.choose = item.choose.toUpperCase()
       this.userBets.score = 0
+      this.userBets.id_user = localStorage.id
       this.userBets.time_choose = new Date().toLocaleString()
-      api.put('/api/users/bets', this.userBets)
+      await api.put('/api/users/bets', this.userBets)
       this.close()
     },
     async dessertsIt() {

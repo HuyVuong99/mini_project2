@@ -12,4 +12,5 @@ class Bets(SchemasBase):
     username: str
     choose: str
     time_choose: str
+    id_user: int
 
