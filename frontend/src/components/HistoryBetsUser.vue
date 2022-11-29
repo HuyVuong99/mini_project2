@@ -58,8 +58,7 @@
       <v-container
           class="py-8 px-6"
           fluid>
-        <v-card-title class="title"> <h1>Lịch sử đặt cược</h1>
-          <v-spacer></v-spacer>
+        <v-card-title class="title"> <h1>Lịch sử đặt cược của {{userName}} </h1>
         </v-card-title>
       </v-container>
       <v-simple-table>
@@ -107,15 +106,17 @@
 
 <script>
 
-import axios from "axios";
+import api from "@/plugins/url";
 
 export default {
+
   data: () => ({
     drawer: null,
     bets: [['mdi-controller', 'Bets']],
     rank: [['mdi-send', 'Ranking']],
     home: [['mdi-home', 'Home']],
     historyBets: [['mdi-card-text', "History Bets"]],
+    userName: localStorage.name,
     infor: localStorage.email,
     myScore: localStorage.score,
     desserts: [],
@@ -123,9 +124,7 @@ export default {
     editedIndex: -1,
     editData: {},
     dataHistory: [],
-    emailUser: {
-      email: undefined
-    },
+    idUser: localStorage.id,
     dialog: false
   }),
 
@@ -152,12 +151,14 @@ export default {
         this.editedIndex = -1
       })
     },
-    async dessertsIt() {
-      this.emailUser.email = localStorage.email
-      await axios.post('http://103.170.123.206:1600/api/users/history',this.emailUser).then(response=>{
+    async dessertsHistory() {
+      this.userName = this.$route.params.username
+      if (typeof this.userName == 'undefined'){
+        this.userName = localStorage.name
+      }
+      await api.get('/api/users/history/'+ this.$route.params.id).then(response=>{
         this.desserts = response.data
         this.desserts.sort(this.compareId)
-        // console.log(response.data)
       })
     },
     compareId(a, b) {
@@ -181,11 +182,11 @@ export default {
       this.$router.push('/bets')
     },
     history_bets() {
-      this.$router.push('/history')
+      this.$router.push('/history/'+ this.idUser)
     }
   },
   beforeMount() {
-    this.dessertsIt()
+    this.dessertsHistory()
   }
 }
 </script>

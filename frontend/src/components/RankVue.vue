@@ -6,7 +6,7 @@
         v-model="drawer"
         app>
       <v-sheet
-          color="grey lighten-4"class="pa-4">
+          color="grey lighten-4" class="pa-4">
         <v-avatar
             class="mb-4" color="primary" size="64" ></v-avatar>
         <div class="infor">{{ infor }}</div>
@@ -46,18 +46,16 @@
     </v-navigation-drawer>
     <v-main>
       <v-container
-          class="py-8 px-6"
+          class="py-8 px-4"
           fluid>
         <v-card-title class="title"> <h1> Bảng xếp hạng</h1>
           <v-spacer></v-spacer>
         </v-card-title>
       </v-container>
-      <v-simple-table
-          class="elevation-20">
-        <template v-slot:default>
+      <v-simple-table>
           <thead>
           <tr>
-            <th class="text-center">STT</th>
+            <th class="text-center" >STT</th>
             <th class="text-center">Name</th>
             <th class="text-center">Score</th>
           </tr>
@@ -69,12 +67,13 @@
               class="text-center"
               v-bind:class="{first_rank: index < 1, second_rank: index>0, third_rank: index>1 }">
             <td>{{ index + 1 }}</td>
-            <td>{{ item.username }}</td>
+            <td @click="showHistoryUser(item)" role="button">{{ item.username }}</td>
             <td>{{ item.score }}</td>
           </tr>
           </tbody>
-        </template>
+
       </v-simple-table>
+
       <v-container
           class="py-8 px-6"
           fluid>
@@ -92,19 +91,8 @@
 </template>
 
 <script>
-// export default defineComponent({
-//   setup(){
-//     const headers = async () => {
-//     const response= await axios.get('http://103.170.123.206:1600/matches')
-//           console.log(response.data)
-//     }
-//     return [response]
-//
-//
-//   }
-// })
-import axios from "axios";
 
+import api from '../plugins/url'
 export default {
   data: () => ({
     drawer: null,
@@ -115,27 +103,23 @@ export default {
     myScore: localStorage.score,
     desserts: [],
     home: [['mdi-home', 'Home']],
+    active: false
   }),
 
 
   methods: {
-    getUsers() {
-      axios.get('http://103.170.123.206:1600/api/users').then(response => {
+    async getUsers() {
+      await api.get('/api/users').then(response => {
         // console.log(response.data)
         this.desserts = response.data
       }).catch(error => console.log(error))
     },
-    // compareScore(a, b) {
-    //   const scoreA = a.score;
-    //   const scoreB = b.score;
-    //   let comparison = 0;
-    //   if (scoreA > scoreB) {
-    //     comparison = 1;
-    //   } else if (scoreA < scoreB) {
-    //     comparison = -1;
-    //   }
-    //   return comparison
-    // },
+    showHistoryUser(data){
+      this.$router.push({name: 'History', params:{id: data.id, username:data.username}})
+
+    },
+
+
     rank_user() {
       this.$router.push('/ranking')
     },
@@ -146,7 +130,7 @@ export default {
       this.$router.push('/bets')
     },
     history_bets(){
-      this.$router.push('/history')
+      this.$router.push('/history/'+ localStorage.id)
     }
   },
   beforeMount() {

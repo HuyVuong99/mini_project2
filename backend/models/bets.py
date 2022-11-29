@@ -9,11 +9,11 @@ class Bets(BaseModel_db):
     away_team = CharField()
     id_match = IntegerField()
     email = CharField()
-    username = CharField()
     choose = CharField()
     id = IntegerField()
     score = IntegerField()
     time_choose = CharField()
+    id_user = IntegerField()
 
     class Meta:
         db_table = 'history_bets'

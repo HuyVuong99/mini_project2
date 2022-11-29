@@ -28,7 +28,7 @@ const routes = [
     component: () => import('../components/BetsVue.vue')
   },
     {
-    path: '/history',
+    path: '/history/:id',
     name: 'History',
     component: () => import('../components/HistoryBetsUser.vue')
   }

@@ -93,26 +93,22 @@ def user_bets(bets: schemas.bets.Bets):
         return {"code": 400, "error": e}
 
 
-@app.post('/api/users/history')
-def get_history_user(bets: schemas.get_history.History_Bets):
+@app.get('/api/users/history/{id_user}')
+def get_history_user(id_user: int):
     """Get history user bets"""
-
     try:
-        data_bets = bets.dict()
-        query_email = Bets.select().where(Bets.email == data_bets['email']).dicts()
-        # query_email = query_email.dicts()
+        query_email = Bets.select().where(Bets.id_user == id_user).dicts()
         query_email = list(query_email)
         return query_email
     except Exception as e:
         return e
 
 
-@app.post('/api/users/score')
+@app.patch('/api/users/score')
 def get_score_user(bets: schemas.get_history.Match_number):
     """Get score user"""
     try:
         data = bets.dict()
-        print(data)
         find_data = Bets.select(Bets.email, Bets.match_number, Bets.choose, Bets.score).where(
             Bets.match_number == data['match_number']).dicts()
         find_data = list(find_data)
@@ -133,7 +129,7 @@ def get_score_user(bets: schemas.get_history.Match_number):
 
 
 @app.patch('/api/users/update/score')
-def update_score_account(bets: schemas.get_history.History_Bets):
+def update_score_account(bets: schemas.get_history.Update_score):
     """Update Score User"""
     try:
         sum_score = 0
@@ -165,3 +161,10 @@ def get_infor_one_user(account: schemas.sign_in.Sign_in):
     get_infor_user = Account.select(Account.score).where(Account.email == account['email']).dicts()
     get_infor_user = list(get_infor_user)
     return get_infor_user
+
+
+# @app.get('/api/users/{id_user}')
+# def get_info_user(id_user: int):
+#     query_info = Account.select().where(Account.id == id_user).dicts()
+#     query_info = list(query_info)
+#     return query_info

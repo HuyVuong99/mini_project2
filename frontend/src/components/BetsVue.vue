@@ -156,8 +156,7 @@
 
 <script>
 
-import axios from "axios";
-
+import api from "@/plugins/url";
 export default {
   data: () => ({
     drawer: null,
@@ -168,8 +167,9 @@ export default {
     infor: localStorage.email,
     myScore: localStorage.score,
     items:['W', "D", "L"],
-    snack: false,
+    idUser: localStorage.id,
     iconSuccess: 'mdi-check-circle',
+    snack: false,
     snackColor: '',
     snackText: '',
     desserts: [],
@@ -177,9 +177,6 @@ export default {
     editedIndex: -1,
     editData: {},
     dataHistory: [],
-    emailUser: {
-      email: undefined
-    },
     userBets: {
       match_number: undefined,
       date_time: undefined,
@@ -229,15 +226,14 @@ export default {
       this.userBets.choose = item.choose.toUpperCase()
       this.userBets.score = 0
       this.userBets.time_choose = new Date().toLocaleString()
-      axios.put('http://103.170.123.206:1600/api/users/bets', this.userBets)
+      api.put('/api/users/bets', this.userBets)
       this.close()
     },
     async dessertsIt() {
-      this.emailUser.email = localStorage.email
-      await axios.post('http://103.170.123.206:1600/api/users/history', this.emailUser).then(response_history => {
+      await api.get('/api/users/history/' + this.idUser).then(response_history => {
         this.dataHistory = response_history.data
       })
-      await axios.get('http://103.170.123.206:1600/api/match').then(response => {
+      await api.get('/api/match').then(response => {
         this.desserts = response.data
         this.desserts.sort(this.compareId)
         for (let i = 0; i < this.desserts.length; i++) {
@@ -267,7 +263,7 @@ export default {
       this.$router.push('/ranking')
     },
     history_bets() {
-      this.$router.push('/history')
+      this.$router.push('/history/'+ localStorage.id)
     }
   },
   beforeMount() {
