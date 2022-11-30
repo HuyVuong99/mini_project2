@@ -106,13 +106,14 @@ def get_history_user(id_user: int):
         return e
 
 
-@app.patch('/api/users/score')
-def get_score_user(bets: schemas.get_history.Match_number):
+@app.patch('/api/users/score/{match_number}')
+def update_score_result(match_number: int, bets: schemas.get_history.Match_number):
     """Get score user"""
     try:
         data = bets.dict()
+        print(data)
         find_data = Bets.select(Bets.email, Bets.match_number, Bets.choose, Bets.score).where(
-            Bets.match_number == data['match_number']).dicts()
+            Bets.match_number == match_number).dicts()
         find_data = list(find_data)
         if len(find_data):
             for i in range(len(find_data)):
@@ -128,19 +129,18 @@ def get_score_user(bets: schemas.get_history.Match_number):
         return {"code": 400, "isSuccess": False, "err": e}
 
 
-@app.patch('/api/users/update/score')
-def update_score_account(bets: schemas.get_history.Update_score):
+@app.patch('/api/users/update/score/{id_user}')
+def update_score_account(id_user: int):
     """Update Score User"""
     try:
         sum_score = 0
-        data_account = bets.dict()
-        find_score_by_name = Bets.select(Bets.email, Bets.score).where(Bets.email == data_account['email']).dicts()
-        find_score_by_name = list(find_score_by_name)
-        if len(find_score_by_name):
-            for i in range(0, len(find_score_by_name)):
-                sum_score = sum_score + find_score_by_name[i]['score']
-        data_update = {"email": data_account['email'], "score": sum_score}
-        Account.update(**data_update).where(Account.email == data_update['email']).execute()
+        find_score_by_id = Bets.select(Bets.id_user, Bets.score).where(Bets.id_user == id_user).dicts()
+        find_score_by_id = list(find_score_by_id)
+        if len(find_score_by_id):
+            for i in range(0, len(find_score_by_id)):
+                sum_score = sum_score + find_score_by_id[i]['score']
+        data_update = {"score": sum_score}
+        Account.update(**data_update).where(Account.id == id_user).execute()
         return {"code": 200, "isSuccess": True, "data": data_update}
     except Exception as e:
         return {"code": 400, "isSuccess": False, "data": e}

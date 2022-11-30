@@ -77,8 +77,7 @@
           <tbody>
           <tr
               v-for="(item) in desserts"
-              :key="item.username"
-              class="text-center"
+               class="text-center"
               v-bind:class="{history_color: (desserts.length > 0)}">
             <td>{{ item.time_choose }}</td>
             <td>{{ item.date_time }}</td>

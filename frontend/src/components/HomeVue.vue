@@ -100,16 +100,12 @@ export default {
     myScore: localStorage.score,
     role: localStorage.role,
     desserts: [],
-    updateMyScore:{
-      email: localStorage.email
-    },
     getInfor:{
       email: localStorage.email,
       password: localStorage.password
     },
     updateScore:{
       result: undefined,
-      match_number: undefined,
     }
   }),
 
@@ -134,10 +130,8 @@ export default {
       this.snackColor = 'success'
       this.snackText = 'Data saved'
       this.updateScore.result = data.result
-      this.updateScore.match_number = data.match_number
-       api.patch('/api/match/update', data)
-       api.post("/api/users/score",this.updateScore)
-
+      await api.patch('/api/match/update', data)
+      await api.patch("/api/users/score/"+ data.match_number,this.updateScore)
     },
     close() {
     },
@@ -146,11 +140,9 @@ export default {
         this.desserts = response.data
         this.desserts.sort(this.compareId)
       })
-      await api.patch('/api/users/update/score', this.updateMyScore)
+      await api.patch('/api/users/update/score/'+localStorage.id)
       await api.post('/api/users/info_one_user',this.getInfor).then(response =>{
-        // console.log(response.data[0].score)
        localStorage.score = response.data[0].score
-        // console.log(localStorage.score)
       })
 
     },
@@ -180,9 +172,7 @@ export default {
     }
   },
   beforeMount() {
-    this.dessertsIt()
-
-  }
+    this.dessertsIt() }
 }
 
 </script>

@@ -63,27 +63,29 @@
             <th class="text-center">Home_Team</th>
             <th class="text-center"></th>
             <th class="text-center">Away_Team</th>
-            <th class="text-center">Choose</th>
-            <th class="text-center">Bets</th>
+            <th class="text-center">You Choose</th>
           </tr>
           </thead>
           <tbody>
           <tr
               v-for="item in desserts"
               :key="item.username"
-              class="text-center"
+                class="text-center"
               v-if="item.goal === '-' "
               v-bind:class="{first: (item.goal === '-')}">
             <td>{{ item.date_time }}</td>
             <td>{{ item.home_team }}</td>
             <td>{{ item.goal }}</td>
             <td>{{ item.away_team }}</td>
-            <td>{{ item.choose }}</td>
             <td>
-              <v-btn
-                  color="pink" dark class="mb-lg-0" @click="editItem(item)">
-                Bets
-              </v-btn>
+              <v-select v-model="item.choose"  :items="items"
+                                color="#f5125f"
+                                persistent-hint
+                                return-object
+                                single-line
+                                class="select"
+                                @input = "save(item)"
+                                ></v-select>
             </td>
           </tr>
           <v-snackbar
@@ -91,51 +93,6 @@
             <v-icon>{{ iconSuccess }}</v-icon>
             {{ snackText }}
           </v-snackbar>
-          <v-dialog v-model="dialog"
-                    max-width="500px" persistent :retain-focus="false">
-            <v-card>
-              <v-card-title>
-                <span class="text-h5">Choose Home_Team Win - Draw - Lose</span>
-              </v-card-title>
-
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col
-                        cols="12" sm="6" md="4">
-                      <v-text-field
-                          disabled v-model="editData.home_team"
-                          label="Home_Team"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                          disabled v-model="editData.away_team"
-                          label="Away_Team"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-select
-                          v-model="editData.choose"
-                          :items="items"
-                          item-text="state"
-                          item-value="abbr"
-                          label="You choose"
-                          persistent-hint
-                          return-object
-                          single-line
-                          class="select"
-                      ></v-select>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="red darken-1" text @click="close"> Cancel </v-btn>
-                <v-btn color="blue darken-1" text @click="save(editData)"> Save </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
           </tbody>
         </template>
 
