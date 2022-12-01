@@ -1,42 +1,18 @@
 <template>
   <v-app id="inspire">
-    <v-system-bar app>
-    </v-system-bar>
+    <v-system-bar app> </v-system-bar>
     <v-navigation-drawer v-model="drawer" app>
       <v-sheet color="grey lighten-4" class="pa-4">
         <v-avatar class="mb-4" color="primary" size="64" ></v-avatar>
         <div class="infor">{{ infor }}</div>
         <div class="infor">My Score: {{ myScore }}</div>
       </v-sheet>
-
-      <v-list>
-        <v-list-item
-            v-for="[icon, text] in home" :key="icon" @click="homeVue">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-            v-for="[icon, text] in bets" :key="icon" @click="bets_user">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-            v-for="[icon, text] in rank" :key="icon" @click="rank_user">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-            v-for="[icon, text] in historyBets" :key="icon" @click="history_bets">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
+      <Header />
     </v-navigation-drawer>
-
     <v-main>
       <v-container class="py-8 px-6" fluid>
         <v-card-title class="title"> <h1>Lịch Thi Đấu World Cup</h1>
-          <v-spacer></v-spacer>
+           <v-spacer></v-spacer>
           <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details ></v-text-field>
         </v-card-title>
         <v-row>
@@ -87,15 +63,13 @@
 <script>
 
 import api from '../plugins/url'
+import Header from "@/components/Header";
 export default {
+  name: "HomeFootBall",
+  components: {Header},
   data: () => ({
     drawer: null,
-    bets: [['mdi-controller', 'Bets']],
-    rank: [['mdi-send', 'Ranking']],
-    home: [['mdi-home', 'Home']],
-    historyBets: [['mdi-card-text', "History Bets"]],
     search: "", snack: false, snackColor: '', snackText: '',
-    pagination: {},
     infor: localStorage.email,
     myScore: localStorage.score,
     role: localStorage.role,
@@ -157,26 +131,12 @@ export default {
       }
       return comparison
     },
-
-    homeVue() {
-      this.$router.push('/dashboard')
-    },
-    rank_user() {
-      this.$router.push('/ranking')
-    },
-    bets_user() {
-      this.$router.push('/bets')
-    },
-    history_bets(){
-      this.$router.push('/history/'+ localStorage.id)
-    }
   },
   beforeMount() {
     this.dessertsIt() }
 }
 
 </script>
-
 <style rel="stylesheet/scss" lang="scss" scoped>
 @import "src/assets/main.scss";
 </style>

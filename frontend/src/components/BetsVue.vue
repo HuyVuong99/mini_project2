@@ -2,61 +2,20 @@
   <v-app id="inspire">
     <v-system-bar app>
     </v-system-bar>
-    <v-navigation-drawer
-        v-model="drawer"
-        app>
-      <v-sheet
-          color="grey lighten-4" class="pa-4">
-        <v-avatar
-            class="mb-4" color="primary" size="64">
-        </v-avatar>
-        <div class="infor">
-          {{ infor }}
-        </div>
+    <v-navigation-drawer v-model="drawer" app>
+      <v-sheet color="grey lighten-4" class="pa-4">
+        <v-avatar class="mb-4" color="primary" size="64"> </v-avatar>
+        <div class="infor"> {{ infor }} </div>
         <div class="infor">My Score: {{ myScore }}</div>
       </v-sheet>
-      <v-list>
-        <v-list-item
-            v-for="[icon, text] in home"
-            :key="icon"
-            @click="homeVue">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-            v-for="[icon, text] in bets"
-            :key="icon"
-            link>
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-
-        <v-list-item
-            v-for="[icon, text] in rank"
-            :key="icon"
-            @click="rank_user">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-            v-for="[icon, text] in historyBets"
-            :key="icon"
-            @click="history_bets">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
+      <Header />
     </v-navigation-drawer>
     <v-main>
-      <v-container
-          class="py-8 px-6"
-          fluid>
-        <v-card-title class="title"><h1>FootBall-Bets-FBiz (choose Home team Win - Draw - Lose)</h1>
-        </v-card-title>
+      <v-container class="py-8 px-6" fluid>
+        <v-card-title class="title"><h1>FootBall-Bets-FBiz (choose Home team Win - Draw - Lose)</h1> </v-card-title>
       </v-container>
       <v-simple-table>
-        <template v-slot:default
-                  class="elevation-20">
+        <template v-slot:default class="elevation-20">
           <thead>
           <tr>
             <th class="text-center">Date_Time</th>
@@ -70,35 +29,27 @@
           <tr
               v-for="item in desserts"
               :key="item.username"
-                class="text-center"
+              class="text-center"
               v-if="item.goal === '-' "
               v-bind:class="{first: (item.goal === '-')}">
             <td>{{ item.date_time }}</td>
             <td>{{ item.home_team }}</td>
             <td>{{ item.goal }}</td>
             <td>{{ item.away_team }}</td>
-            <td>
-              <v-select v-model="item.choose"  :items="items"
-                                color="#f5125f"
-                                persistent-hint
-                                return-object
-                                single-line
+            <td> <v-select v-model="item.choose"  :items="items"
+                                color="#f5125f" persistent-hint return-object single-line
                                 class="select"
-                                @input = "save(item)"
-                                ></v-select>
+                                @input = "save(item)" ></v-select>
             </td>
           </tr>
-          <v-snackbar
-              v-model="snack" :timeout="3000" :color="snackColor">
-            <v-icon>{{ iconSuccess }}</v-icon>
-            {{ snackText }}
+          <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
+              <v-icon>{{ iconSuccess }}</v-icon> {{ snackText }}
           </v-snackbar>
           </tbody>
         </template>
 
       </v-simple-table>
-      <v-container
-          class="py-8 px-6" fluid>
+      <v-container class="py-8 px-6" fluid>
         <v-row>
           <v-app-bar app>
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
@@ -114,13 +65,11 @@
 <script>
 
 import api from "@/plugins/url";
+import Header from "@/components/Header";
 export default {
+  name: "BetVue",
   data: () => ({
     drawer: null,
-    bets: [['mdi-controller', 'Bets']],
-    rank: [['mdi-send', 'Ranking']],
-    home: [['mdi-home', 'Home']],
-    historyBets: [['mdi-card-text', "History Bets"]],
     infor: localStorage.email,
     myScore: localStorage.score,
     items:['W', "D", "L"],
@@ -130,9 +79,7 @@ export default {
     snackColor: '',
     snackText: '',
     desserts: [],
-    edit: false,
     editedIndex: -1,
-    editData: {},
     dataHistory: [],
     userBets: {
       match_number: undefined,
@@ -145,8 +92,7 @@ export default {
       choose: undefined,
       time_choose: undefined,
       id_user: undefined
-    },
-    dialog: false
+    }
   }),
 
   computed: {
@@ -161,13 +107,11 @@ export default {
       ]
     },
   },
+  components:{
+    Header
+  },
   methods: {
-    editItem(item) {
-      this.editData = item
-      this.dialog = true
-    },
     close() {
-      this.dialog = false
       this.$nextTick(() => {
         this.editedIndex = -1
       })
@@ -199,9 +143,7 @@ export default {
           for (let j = 0; j < this.dataHistory.length; j++) {
             if (this.desserts.at(i).id === this.dataHistory.at(j).id_match) {
               this.desserts.at(i).choose = this.dataHistory.at(j).choose
-            }
-          }
-        }
+            }}}
       })
     },
     compareId(a, b) {
@@ -215,15 +157,6 @@ export default {
       }
       return comparison
     },
-    homeVue() {
-      this.$router.push('/dashboard')
-    },
-    rank_user() {
-      this.$router.push('/ranking')
-    },
-    history_bets() {
-      this.$router.push('/history/'+ localStorage.id)
-    }
   },
   beforeMount() {
     this.dessertsIt()

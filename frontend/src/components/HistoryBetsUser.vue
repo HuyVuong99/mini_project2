@@ -1,64 +1,18 @@
 <template>
   <v-app id="inspire">
-    <v-system-bar app>
-    </v-system-bar>
-    <v-navigation-drawer
-        v-model="drawer"
-        app>
-      <v-sheet
-          color="grey lighten-4" class="pa-4">
-        <v-avatar
-            class="mb-4" color="primary" size="64">
-
-        </v-avatar>
+    <v-system-bar app></v-system-bar>
+    <v-navigation-drawer v-model="drawer" app>
+      <v-sheet color="grey lighten-4" class="pa-4">
+        <v-avatar class="mb-4" color="primary" size="64"></v-avatar>
         <div class="infor">{{ infor }}</div>
         <div class="infor">My Score: {{ myScore }}</div>
       </v-sheet>
       <v-divider></v-divider>
-      <v-list>
-        <v-list-item
-            v-for="[icon, text] in home"
-            :key="icon"
-            @click="homeVue">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-            v-for="[icon, text] in bets"
-            :key="icon"
-            @click="bets_user">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-
-        <v-list-item
-            v-for="[icon, text] in rank"
-            :key="icon"
-            @click="rank_user">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-            v-for="[icon, text] in historyBets"
-            :key="icon"
-            @click="history_bets">
-          <v-icon>{{ icon }}</v-icon>
-          <v-list-item-title>{{ text }}</v-list-item-title>
-        </v-list-item>
-        <!--        <v-list-item-->
-        <!--            v-for="[icon, text] in historyBets"-->
-        <!--            :key="icon"-->
-        <!--            @click="rank_user">-->
-        <!--          <v-icon>{{ icon }}</v-icon>-->
-        <!--          <v-list-item-title>{{ text }}</v-list-item-title>-->
-        <!--        </v-list-item>-->
-      </v-list>
+      <Header/>
     </v-navigation-drawer>
     <v-main>
-      <v-container
-          class="py-8 px-6"
-          fluid>
-        <v-card-title class="title"> <h1>Lịch sử đặt cược của {{userName}} </h1>
+      <v-container class="py-8 px-6" fluid>
+        <v-card-title class="title"><h1>Lịch sử đặt cược của {{ userName }} </h1>
         </v-card-title>
       </v-container>
       <v-simple-table>
@@ -77,14 +31,14 @@
           <tbody>
           <tr
               v-for="(item) in desserts"
-               class="text-center"
+              class="text-center"
               v-bind:class="{history_color: (desserts.length > 0)}">
             <td>{{ item.time_choose }}</td>
             <td>{{ item.date_time }}</td>
             <td>{{ item.home_team }}</td>
             <td>{{ item.away_team }}</td>
             <td>{{ item.choose }}</td>
-            <td>{{item.score}}</td>
+            <td>{{ item.score }}</td>
           </tr>
           </tbody>
         </template>
@@ -106,25 +60,18 @@
 <script>
 
 import api from "@/plugins/url";
+import Header from "@/components/Header";
 
 export default {
-
+  name: "HistoryVue",
+  components: {Header},
   data: () => ({
     drawer: null,
-    bets: [['mdi-controller', 'Bets']],
-    rank: [['mdi-send', 'Ranking']],
-    home: [['mdi-home', 'Home']],
-    historyBets: [['mdi-card-text', "History Bets"]],
     userName: localStorage.name,
     infor: localStorage.email,
     myScore: localStorage.score,
     desserts: [],
-    edit: false,
-    editedIndex: -1,
-    editData: {},
-    dataHistory: [],
     idUser: localStorage.id,
-    dialog: false
   }),
 
   computed: {
@@ -140,22 +87,12 @@ export default {
     },
   },
   methods: {
-    editItem(item) {
-      this.editData = item
-      this.dialog = true
-    },
-    close() {
-      this.dialog = false
-      this.$nextTick(() => {
-        this.editedIndex = -1
-      })
-    },
     async dessertsHistory() {
       this.userName = this.$route.params.username
-      if (typeof this.userName == 'undefined'){
+      if (typeof this.userName == 'undefined') {
         this.userName = localStorage.name
       }
-      await api.get('/api/users/history/'+ this.$route.params.id).then(response=>{
+      await api.get('/api/users/history/' + this.$route.params.id).then(response => {
         this.desserts = response.data
         this.desserts.sort(this.compareId)
       })
@@ -171,18 +108,6 @@ export default {
       }
       return comparison
     },
-    homeVue() {
-      this.$router.push('/dashboard')
-    },
-    rank_user() {
-      this.$router.push('/ranking')
-    },
-    bets_user() {
-      this.$router.push('/bets')
-    },
-    history_bets() {
-      this.$router.push('/history/'+ this.idUser)
-    }
   },
   beforeMount() {
     this.dessertsHistory()

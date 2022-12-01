@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginView from '../views/LoginView.vue'
+import RankView from "@/views/RankView.vue";
+import HomeFootBallView from "@/views/HomeFootBallView.vue";
+import BetsView from "@/views/BetsView.vue";
+import historyView from "@/views/HistoryView.vue";
 
 
 Vue.use(VueRouter)
@@ -9,28 +13,28 @@ const routes = [
   {
     path: '/',
     name: 'LoginView',
-    component: () => import('../components/LoginVue.vue')
+    component: LoginView
   },
 
     {
     path: '/dashboard',
     name: 'Dashboard',
-    component: () => import('../components/HomeVue.vue')
+    component: HomeFootBallView
   },
   {
     path: '/ranking',
     name: 'Ranking',
-    component: () => import('../components/RankVue.vue')
+    component: RankView
   },
     {
     path: '/bets',
     name: 'Bets',
-    component: () => import('../components/BetsVue.vue')
+    component: BetsView
   },
     {
     path: '/history/:id',
     name: 'History',
-    component: () => import('../components/HistoryBetsUser.vue')
+    component: historyView
   }
 ]
 

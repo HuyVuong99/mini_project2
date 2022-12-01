@@ -46,6 +46,7 @@ import axios from "axios";
 // })
 import api from '../plugins/url'
 export default {
+  name: "Login",
   data() {
     return {
       login: {

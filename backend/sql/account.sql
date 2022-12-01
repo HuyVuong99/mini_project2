@@ -1,3 +1,15 @@
+create table history_bets
+(
+    id           serial primary key ,
+    email        text,
+    username     text,
+    score        integer default 0,
+    password     text,
+    role         text
+
+);
+
+
 INSERT INTO public.account (id, username, email, password, role, score) VALUES (6, 'SonNH', 'sonnh@otani-trading.com', 'sonnh123', 'user', 0);
 INSERT INTO public.account (id, username, email, password, role, score) VALUES (4, 'SonDH', 'sondh@otani-trading.com', 'sondh123', 'user', 0);
 INSERT INTO public.account (id, username, email, password, role, score) VALUES (10, 'SonPH', 'sonph@otani-trading.com', 'sonph123', 'user', 0);
