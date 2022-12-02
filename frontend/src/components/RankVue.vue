@@ -65,13 +65,14 @@ export default {
 
   methods: {
     async getUsers() {
+      const self = this
       await api.get('/api/users').then(response => {
-        this.desserts = response.data
+        self.desserts = response.data
       }).catch(error => console.log(error))
     },
     showHistoryUser(data) {
-      this.$router.push({name: 'History', params: {id: data.id, username: data.username}})
-
+      const self = this
+      self.$router.push({name: 'History', params: {id: data.id, username: data.username}})
     },
   },
   beforeMount() {

@@ -88,13 +88,14 @@ export default {
   },
   methods: {
     async dessertsHistory() {
-      this.userName = this.$route.params.username
-      if (typeof this.userName == 'undefined') {
-        this.userName = localStorage.name
+       const self = this
+      self.userName = self.$route.params.username
+      if (typeof self.userName == 'undefined') {
+        self.userName = localStorage.name
       }
-      await api.get('/api/users/history/' + this.$route.params.id).then(response => {
-        this.desserts = response.data
-        this.desserts.sort(this.compareId)
+      await api.get('/api/users/history/' + self.$route.params.id).then(response => {
+        self.desserts = response.data
+        self.desserts.sort(self.compareId)
       })
     },
     compareId(a, b) {
@@ -110,7 +111,8 @@ export default {
     },
   },
   beforeMount() {
-    this.dessertsHistory()
+    const self = this
+    self.dessertsHistory()
   }
 }
 </script>

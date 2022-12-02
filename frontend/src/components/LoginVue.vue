@@ -58,8 +58,9 @@ export default {
   },
   methods: {
     async loginVue() {
+      const self = this
       try {
-      await api.post('/api/users/login', this.login).then(response => {
+      await api.post('/api/users/login', self.login).then(response => {
         if (response.data.code === 200) {
           localStorage.name = response.data.data[0].username
           localStorage.email = response.data.data[0].email
@@ -67,11 +68,11 @@ export default {
           localStorage.score = response.data.data[0].score
           localStorage.id = response.data.data[0].id
           localStorage.password = response.data.data[0].password
-          this.$router.push('/dashboard')
+          self.$router.push('/dashboard')
 
         }
         else {
-          this.error='Invalid email/password!'
+          self.error='Invalid email/password!'
         }
       })
       }catch (e) {

@@ -112,37 +112,41 @@ export default {
   },
   methods: {
     close() {
-      this.$nextTick(() => {
-        this.editedIndex = -1
+      const self = this
+      self.$nextTick(() => {
+        self.editedIndex = -1
       })
     },
     async save(item) {
-      this.snack = true
-      this.snackColor = 'success'
-      this.snackText = 'Bets Success'
-      this.userBets.away_team = item.away_team
-      this.userBets.home_team = item.home_team
-      this.userBets.date_time = item.date_time
-      this.userBets.match_number = item.match_number
-      this.userBets.id_match = item.id
-      this.userBets.choose = item.choose.toUpperCase()
-      this.userBets.score = 0
-      this.userBets.id_user = localStorage.id
-      this.userBets.time_choose = new Date().toLocaleString()
+      const self = this
+      self.snack = true
+      self.snackColor = 'success'
+      self.snackText = 'Bets Success'
+      self.userBets.away_team = item.away_team
+      self.userBets.home_team = item.home_team
+      self.userBets.date_time = item.date_time
+      self.userBets.match_number = item.match_number
+      self.userBets.id_match = item.id
+      self.userBets.choose = item.choose.toUpperCase()
+      self.userBets.score = 0
+      self.userBets.id_user = localStorage.id
+      self.userBets.time_choose = new Date().toLocaleString()
       await api.put('/api/users/bets', this.userBets)
-      this.close()
+      self.close()
     },
     async dessertsIt() {
-      await api.get('/api/users/history/' + this.idUser).then(response_history => {
-        this.dataHistory = response_history.data
+      const self = this
+      await api.get('/api/users/history/' + self.idUser).then(response_history => {
+        self.dataHistory = response_history.data
       })
       await api.get('/api/match').then(response => {
-        this.desserts = response.data
-        this.desserts.sort(this.compareId)
+        const self = this
+        self.desserts = response.data
+        self.desserts.sort(this.compareId)
         for (let i = 0; i < this.desserts.length; i++) {
           for (let j = 0; j < this.dataHistory.length; j++) {
-            if (this.desserts.at(i).id === this.dataHistory.at(j).id_match) {
-              this.desserts.at(i).choose = this.dataHistory.at(j).choose
+            if (self.desserts.at(i).id === self.dataHistory.at(j).id_match) {
+              self.desserts.at(i).choose = self.dataHistory.at(j).choose
             }}}
       })
     },
@@ -159,7 +163,8 @@ export default {
     },
   },
   beforeMount() {
-    this.dessertsIt()
+    const self = this
+    self.dessertsIt()
   }
 }
 </script>

@@ -100,22 +100,24 @@ export default {
   },
   methods: {
     async save(data) {
-      this.snack = true
-      this.snackColor = 'success'
-      this.snackText = 'Data saved'
-      this.updateScore.result = data.result
+      const self = this
+      self.snack = true
+      self.snackColor = 'success'
+      self.snackText = 'Data saved'
+      self.updateScore.result = data.result
       await api.patch('/api/match/update', data)
-      await api.patch("/api/users/score/"+ data.match_number,this.updateScore)
+      await api.patch("/api/users/score/"+ data.match_number,self.updateScore)
     },
     close() {
     },
     async dessertsIt() {
+      const self = this
       await api.get('/api/match').then(response => {
-        this.desserts = response.data
-        this.desserts.sort(this.compareId)
+        self.desserts = response.data
+        self.desserts.sort(self.compareId)
       })
       await api.patch('/api/users/update/score/'+localStorage.id)
-      await api.post('/api/users/info_one_user',this.getInfor).then(response =>{
+      await api.post('/api/users/info_one_user',self.getInfor).then(response =>{
        localStorage.score = response.data[0].score
       })
 
