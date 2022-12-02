@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import RankView from "@/views/RankView.vue";
 import HomeFootBallView from "@/views/HomeFootBallView.vue";
-import BetsView from "@/views/BetsView.vue";
 import historyView from "@/views/HistoryView.vue";
 
 
@@ -25,11 +24,6 @@ const routes = [
     path: '/ranking',
     name: 'Ranking',
     component: RankView
-  },
-    {
-    path: '/bets',
-    name: 'Bets',
-    component: BetsView
   },
     {
     path: '/history/:id',

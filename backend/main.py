@@ -111,7 +111,6 @@ def update_score_result(match_number: int, bets: schemas.get_history.Match_numbe
     """Get score user"""
     try:
         data = bets.dict()
-        print(data)
         find_data = Bets.select(Bets.email, Bets.match_number, Bets.choose, Bets.score).where(
             Bets.match_number == match_number).dicts()
         find_data = list(find_data)
@@ -124,6 +123,8 @@ def update_score_result(match_number: int, bets: schemas.get_history.Match_numbe
                     Bets.update(**data_update).where(
                         (Bets.email == data_update['email']) & (
                                 Bets.match_number == find_data[i]['match_number'])).execute()
+
+
         return {"code": 200, "isSuccess": True, "data": data}
     except Exception as e:
         return {"code": 400, "isSuccess": False, "err": e}

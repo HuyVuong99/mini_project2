@@ -13,7 +13,7 @@
   background-color: #dcf8d9
 }
 .home_vue {
-  background: #a8e0e0;}
+  background: #e5f0ff;}
 .first_rank {
   background-color: #f7ff00
 }
@@ -29,20 +29,21 @@
   color: #f11062;
   font-size: 160px
 }
-.back_ground{
-background-color: #f0dbfd
+.matching{
+background-color: #fdfdfd
 }
 .table{
    text-align: center
 }
-.test{
-  background-color: #dc173a;
+.chooseMatch{
+  background-color: #ecffea;
 }
 .select {
       max-width: 120px;
-      max-height: 80px;
+      max-height: 50px;
       font-size: 20px;
-      margin: auto;
+      margin: 0.01px;
+
     }
 .cursor
 {
@@ -51,4 +52,19 @@ background-color: #f0dbfd
 .header_table{
   font-size: large;
   color: black;
+}
+ .disabled {
+      pointer-events:none;
+      color: #90b1f5;
+      cursor: not-allowed;
+      background-image: none;
+    }
+.color_team{
+  color: #ef0530;
+}
+.math_number_color{
+  color: black ;
+}
+.click_check{
+  background-color: #428bf6;
 }

@@ -6,13 +6,6 @@
       <v-icon>{{ icon }}</v-icon>
       <v-list-item-title>{{ text }}</v-list-item-title>
     </v-list-item>
-    <v-list-item
-        v-for="[icon, text] in bets"
-        :key="icon"
-        @click=bets_user>
-      <v-icon>{{ icon }}</v-icon>
-      <v-list-item-title>{{ text }}</v-list-item-title>
-    </v-list-item>
 
     <v-list-item
         v-for="[icon, text] in rank"
@@ -21,23 +14,18 @@
       <v-icon>{{ icon }}</v-icon>
       <v-list-item-title>{{ text }}</v-list-item-title>
     </v-list-item>
-    <v-list-item
-        v-for="[icon, text] in historyBets"
-        :key="icon"
-        @click="history_bets">
-      <v-icon>{{ icon }}</v-icon>
-      <v-list-item-title>{{ text }}</v-list-item-title>
-    </v-list-item>
+
   </v-list>
 </template>
 
 <script>
 export default {
   name: "Header",
+
   data: () => ({
     bets: [['mdi-controller', 'Bets']],
     rank: [['mdi-send', 'Ranking']],
-    home: [['mdi-home', 'Home']],
+    home: [['mdi-controller', 'Bets']],
     historyBets: [['mdi-card-text', "History Bets"]],
   }),
   methods: {
@@ -47,12 +35,6 @@ export default {
     rank_user() {
       this.$router.push('/ranking')
     },
-    bets_user() {
-      this.$router.push('/bets')
-    },
-    history_bets() {
-      this.$router.push('/history/' + localStorage.id)
-    }
   }
 }
 </script>
