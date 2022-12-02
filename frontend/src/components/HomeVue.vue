@@ -40,7 +40,7 @@
                   <td class="color_team"> {{props.item.result}}
                     <template v-if="role==='admin'">
                       <v-edit-dialog :return-value.sync="props.item.result"
-                                     @save="saveAdminChange(props.item)" @close="close"> {{ props.item.result }}
+                                     @save="saveAdminChange(props.item)" @close="close">
                         <template v-slot:input>
                           <v-text-field v-model="props.item.result" counter label="Edit" single-line></v-text-field>
                         </template>
@@ -163,6 +163,7 @@ export default {
       self.userBets.score = 0
       self.userBets.id_user = localStorage.id
       self.userBets.time_choose = new Date().toLocaleString()
+      console.log(item)
       await api.put('/api/users/bets', this.userBets)
       self.close()
     },
@@ -178,6 +179,7 @@ export default {
       await api.post('/api/users/info_one_user', self.getInfor).then(response => {
         localStorage.score = response.data[0].score
       })
+
     },
     async dataHistory() {
       const self = this
