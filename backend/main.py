@@ -117,7 +117,16 @@ def update_score_result(match_number: int, bets: schemas.get_history.Match_numbe
         if len(find_data):
             for i in range(len(find_data)):
                 if find_data[i]['choose'] == data['result']:
-                    find_data[i]['score'] = 1
+                    if 48<find_data[i]['match_number']<57:
+                        find_data[i]['score'] = 2
+                    if find_data[i]['match_number']<47:
+                        find_data[i]['score'] = 1
+                    if 56<find_data[i]['match_number']<61:
+                        find_data[i]['score'] = 3
+                    if 60<find_data[i]['match_number']<64:
+                        find_data[i]['score'] = 4
+                    if find_data[i]['match_number']>63:
+                        find_data[i]['score'] = 5
                     data_update = {"email": find_data[i]['email'], "score": find_data[i]['score'],
                                    "match_number": find_data[i]['match_number']}
                     Bets.update(**data_update).where(
