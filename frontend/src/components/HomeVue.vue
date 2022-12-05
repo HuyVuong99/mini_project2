@@ -13,8 +13,7 @@
       <v-container class="py-8 px-6" fluid>
         <v-card-title class="title"><h1>Lịch Thi Đấu World Cup</h1>
           <v-spacer></v-spacer>
-          <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
-                        hide-details></v-text-field>
+          <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
         </v-card-title>
         <v-row>
           <v-col>
@@ -76,7 +75,6 @@
         </v-row>
       </v-container>
     </v-main>
-
   </v-app>
 </template>
 
@@ -116,7 +114,8 @@ export default {
       username: localStorage.name,
       choose: undefined,
       time_choose: undefined,
-      id_user: undefined
+      id_user: undefined,
+      result: undefined
     }
   }),
 
@@ -163,7 +162,7 @@ export default {
       self.userBets.score = 0
       self.userBets.id_user = localStorage.id
       self.userBets.time_choose = new Date().toLocaleString()
-      console.log(item)
+      self.userBets.result = ''
       await api.put('/api/users/bets', this.userBets)
       self.close()
     },
@@ -187,7 +186,6 @@ export default {
         self.dataHistory = response_history.data
       })
       await api.get('/api/match').then(response => {
-        console.log(response.data)
         const self = this
         self.desserts = response.data
         self.desserts.sort(this.compareId)

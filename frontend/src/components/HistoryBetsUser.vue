@@ -73,19 +73,6 @@ export default {
     desserts: [],
     idUser: localStorage.id,
   }),
-
-  computed: {
-    headers() {
-      return [
-        {text: "Home_Team", value: 'home_team'},
-        {text: "Goal", value: 'goal'},
-        {text: "Away_Team", value: 'away_team'},
-        {text: "Group_Match", value: 'group_match'},
-        {text: "Result", value: 'result'},
-        {text: "Choose", value: 'choose'},
-      ]
-    },
-  },
   methods: {
     async dessertsHistory() {
        const self = this
@@ -93,7 +80,7 @@ export default {
       if (typeof self.userName == 'undefined') {
         self.userName = localStorage.name
       }
-      await api.get('/api/users/history/' + self.$route.params.id).then(response => {
+      await api.get('/api/users/history/result/' + self.$route.params.id).then(response => {
         self.desserts = response.data
         self.desserts.sort(self.compareId)
       })

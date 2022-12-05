@@ -104,6 +104,15 @@ def get_history_user(id_user: int):
         return query_email
     except Exception as e:
         return e
+@app.get('/api/users/history/result/{id_user}')
+def get_history_result_user(id_user: int):
+    """Get history result user bets"""
+    try:
+        query_email = Bets.select().where((Bets.id_user == id_user) & (Bets.result != '')).dicts()
+        query_email = list(query_email)
+        return query_email
+    except Exception as e:
+        return e
 
 
 @app.patch('/api/users/score/{match_number}')
@@ -115,6 +124,8 @@ def update_score_result(match_number: int, bets: schemas.get_history.Match_numbe
             Bets.match_number == match_number).dicts()
         find_data = list(find_data)
         if len(find_data):
+            data_result = {"result": data['result']}
+            Bets.update(**data_result).where(Bets.match_number == match_number).execute()
             for i in range(len(find_data)):
                 if find_data[i]['choose'] == data['result']:
                     if 48<find_data[i]['match_number']<57:
