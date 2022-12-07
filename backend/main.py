@@ -108,7 +108,7 @@ def get_history_user(id_user: int):
 def get_history_result_user(id_user: int):
     """Get history result user bets"""
     try:
-        query_email = Bets.select().where((Bets.id_user == id_user) & (Bets.result != '')).dicts()
+        query_email = Bets.select().where((Bets.id_user == id_user) & (Bets.result != '') & (Bets.result != ' ')).dicts()
         query_email = list(query_email)
         return query_email
     except Exception as e:
